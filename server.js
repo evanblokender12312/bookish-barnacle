@@ -24,6 +24,11 @@ function saveMeta() { fs.writeFileSync(META_FILE, JSON.stringify(metadata, null,
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Fallback — serve index.html for root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 const storage = multer.diskStorage({
   destination: UPLOAD_DIR,
   filename: (req, file, cb) => {
